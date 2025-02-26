@@ -55,11 +55,6 @@ NOTE: For more information about the Black Duck SCA scanner, refer to the link:h
 | No
 | The Black Duck project version.
 
-| `project-version`
-| String
-| No
-| The Black Duck project version.
-
 | `ref`
 | String
 | Yes
