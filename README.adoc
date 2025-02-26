@@ -28,11 +28,6 @@ Use this action to scan repositories for dependency vulnerabilities with the Bla
 | No
 | The Blackduck project name.
 
-| `project-version`
-| String
-| No
-| The Blackduck project version.
-
 | `ref`
 | String
 | Yes
