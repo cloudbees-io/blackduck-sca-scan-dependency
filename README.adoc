@@ -1,6 +1,28 @@
-= Cloudbees action: Scan with Blackduck SCA
+= Cloudbees action: Scan with Black Duck SCA
 
-Use this action to scan repositories for dependency vulnerabilities with the Blackduck Software Composition Analysis (SCA) scanner.
+Use this action to scan repositories for dependency vulnerabilities with the Black Duck Software Composition Analysis (SCA) scanner.
+
+== Scanner information
+
+The Black Duck SCA scanner architectural components are:
+
+* Client-side: The Black Duck Detect scanning tool, the Signature Scanner command line tool, and the REST API.
+* Server-side: The Black Duck server.
+* Data center: The link:https://www.blackduck.com/software-composition-analysis-tools/knowledgebase.html[Black Duck KnowledgeBase] open-source software database.
+
+The scanning process is as follows:
+
+. The Black Duck Detect tool is used to authenticate and initiate the code scan.
+. Codebases are scanned on the client side.
+. The scan data is uploaded to the Black Duck server with the Detect tool.
+The completed scan data does not contain any source code, to maintain your code security.
+The completed scan contains only file and directory signatures, and information derived from package management files.
+. The scan data is sent to the Black Duck KnowledgeBase, and open source components in your code are matched and identified.
+The matching/identification process is based on your package manager data and SHA1 hashes created by the Signature Scanner when it scans your files and directories.
+. The REST API is used to fetch the bearer token and retrieve the scanning results.
+. The matched open source components are reported as a viewable Bill of Materials that contains the associated security, licensing, and operational risks of the discovered components.
+
+NOTE: For more information about the Black Duck SCA scanner, refer to the link:https://documentation.blackduck.com/bundle/bd-hub/page/Welcome.html[product documentation].
 
 == Inputs
 
@@ -16,27 +38,33 @@ Use this action to scan repositories for dependency vulnerabilities with the Bla
 | `server-url`
 | String
 | Yes
-| The Blackduck server URL.
+| The Black Duck server URL.
 
 | `api-token`
 | String
 | Yes
-| The Blackduck api token.
+| The Black Duck client secret.
 
 | `project-name`
 | String
 | No
-| The Blackduck project name.
+| The Black Duck project name.
 
 | `project-version`
 | String
 | No
-| The Blackduck project version.
+| The Black Duck project version.
+
+| `project-version`
+| String
+| No
+| The Black Duck project version.
 
 | `ref`
 | String
 | Yes
-| Flag to indicate the ref that should be archived (same as supplied to checkout).
+| Specify the ref that should be checked out and archived.
+
 |===
 
 == Usage example
@@ -46,15 +74,14 @@ In your YAML file, add:
 [source,yaml]
 ----
 
-      - name: Scan with Blackduck SCA
-        uses: cloudbees-io/blackduck-sca-scan-dependency@v1
+      - name: Scan with Black Duck SCA
+        uses: https://github.com/cloudbees-io/blackduck-sca-scan-dependency@v1
         with:
-          server-url: 'https://blackduck.saas.com'
-          api-token: 'YzUwN2Mz=='
+          server-url: ${{ vars.BLACK_DUCK_URL }}
+          api-token: ${{ secrets.BLACK_DUCK_TOKEN }}
           ref: main
 
 ----
-
 
 == License
 
@@ -63,5 +90,5 @@ link:https://opensource.org/license/mit/[MIT license].
 
 == References
 
-* Learn more about link:https://docs.cloudbees.com/docs/cloudbees-saas-platform-actions/latest/[using actions in CloudBees workflows].
-* Learn about link:https://docs.cloudbees.com/docs/cloudbees-saas-platform/latest/[the CloudBees platform].
+* Learn more about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/actions[using actions in CloudBees workflows].
+* Learn about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/[the CloudBees platform].
