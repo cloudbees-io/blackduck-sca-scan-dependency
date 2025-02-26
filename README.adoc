@@ -51,6 +51,7 @@ In your YAML file, add:
         with:
           server-url: 'https://blackduck.saas.com'
           api-token: 'YzUwN2Mz=='
+          ref: main
 
 ----
 
