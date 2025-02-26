@@ -62,7 +62,7 @@ runs:
           STEP_ID: ${{ step.internal.id }}
           BLACKDUCK_URL: ${{ inputs.server-url }}
           BLACKDUCK_API_TOKEN: ${{ inputs.api-token }}
-          BLACKDUCK_PROJECT_NAME: ${{ inputs.project-name }}
+          BLACKDUCK_PROJECT: ${{ inputs.project-name }}
           BLACKDUCK_PROJECT_VERSION: ${{ inputs.project-version }}
           BLACKDUCK_SCAN_MODE: ${{ inputs.scan-mode }}
       run: /app/plugin-blackduck-scanner -mode single

@@ -33,6 +33,10 @@ Use this action to scan repositories for dependency vulnerabilities with the Bla
 | No
 | The Blackduck project version.
 
+| `ref`
+| String
+| Yes
+| Flag to indicate the ref that should be archived (same as supplied to checkout).
 |===
 
 == Usage example
