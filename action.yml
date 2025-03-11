@@ -28,6 +28,10 @@ inputs:
     description: 'Flag to mention the project version'
     required: false
     default: ''
+  detect-cli-params:
+    description: 'Flag to mention the detect cli params'
+    required: false
+    default: ''
 
 runs:
   using: composite
@@ -55,7 +59,7 @@ runs:
           INPUT_CLOUDBEES_API_URL: ${{ cloudbees.api.url }}
           INPUT_RUN_ID: ${{ cloudbees.run_id }}
     - name: Run blackduck compliance plugin
-      uses: docker://public.ecr.aws/l7o7z1g8/actions/plugin-blackduck-sca:f3b19960a9fc0d2214b16e2e269adaf3b16a3529
+      uses: docker://public.ecr.aws/l7o7z1g8/actions/plugin-blackduck-sca:f2f7d6da8bb468109b402aa7205ffd0cb438828b
       env:
           RUN_ID: ${{ cloudbees.run_id }}
           JOB_ID: ${{ job.id }}
@@ -65,6 +69,7 @@ runs:
           BLACKDUCK_PROJECT: ${{ inputs.project-name }}
           BLACKDUCK_PROJECT_VERSION: ${{ inputs.project-version }}
           BLACKDUCK_SCAN_MODE: ${{ inputs.scan-mode }}
+          BLACKDUCK_DETECT_CLI_PARAMS: ${{ inputs.detect-cli-params }}
       run: /app/plugin-blackduck-scanner -mode single
     - name: Complete execution plan
       uses: docker://public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:d14621a0e281098b736a3d21cc92edd1fdc8b504
