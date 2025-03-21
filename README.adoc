@@ -45,6 +45,11 @@ NOTE: For more information about the Black Duck SCA scanner, refer to the link:h
 | Yes
 | The Black Duck client secret.
 
+| `ref`
+| String
+| Yes
+| Specify the ref to be checked out and archived.
+
 | `project-name`
 | String
 | No
@@ -55,32 +60,45 @@ NOTE: For more information about the Black Duck SCA scanner, refer to the link:h
 | No
 | The Black Duck project version.
 
-| `ref`
-| String
-| Yes
-| Specify the ref that should be checked out and archived.
-
-|===
-
 | `detect-cli-params`
 | String
-| Yes
-| Flag to mention the detect cli params.
-|===
-== Usage example
+| No
+| Specify any link:https://documentation.blackduck.com/bundle/detect/page/properties/basic-properties.html[Black Duck Detect properties].
 
-In your YAML file, add:
+|===
+
+== Usage examples
+
+== Usage examples
+
+The following is a basic usage example for this action:
 
 [source,yaml]
 ----
 
       - name: Scan with Black Duck SCA
-        uses: https://github.com/cloudbees-io/blackduck-sca-scan-dependency@v1
+        uses: https://github.com/cloudbees-io/blackduck-sca-scan-dependency@v2
         with:
           server-url: ${{ vars.BLACK_DUCK_URL }}
           api-token: ${{ secrets.BLACK_DUCK_TOKEN }}
-          detect-cli-params: '--detect.test.connection=true --logging.level.detect=DEBUG'
           ref: main
+
+----
+
+In the following example, the Black Duck Detect properties `logging.level.detect` and `blackduck.offline.mode` are specified:
+
+[source,yaml]
+----
+
+      - name: Scan with Black Duck SCA with params
+        uses: https://github.com/cloudbees-io/blackduck-sca-scan-dependency@v2
+        with:
+          server-url: ${{ vars.BLACK_DUCK_URL }}
+          api-token: ${{ secrets.BLACK_DUCK_TOKEN }}
+          ref: main
+          project-name: 'my-project'
+          project-version: '0.0.1'
+          detect-cli-params: '--logging.level.detect=DEBUG --blackduck.offline.mode=false'
 
 ----
 
