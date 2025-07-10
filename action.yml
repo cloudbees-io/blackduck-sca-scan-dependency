@@ -53,7 +53,7 @@ runs:
       uses: docker://golang:1.20.3-alpine3.17
       shell: sh
       run: |
-          tar -czf $CLOUDBEES_WORKSPACE/output.tar.gz -C $CLOUDBEES_WORKSPACE .
+          tar -czf $CLOUDBEES_WORKSPACE/output.tar -C $CLOUDBEES_WORKSPACE .
 
     - name: Generate reference files 
       uses: docker://public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:0dea78066b1aecbca8a3a6674aade8ee49b5d57a
