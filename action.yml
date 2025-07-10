@@ -49,6 +49,11 @@ runs:
     #     INPUT_REF: ${{ inputs.ref }}
     #     INPUT_WORKSPACE_DIR: ${{ inputs.workspace-dir }}
 
+    - name: Create archive in workspace
+      uses: 
+      run: |
+        tar -czf $CLOUDBEES_WORKSPACE/output.tar $CLOUDBEES_WORKSPACE
+
     - name: Generate reference files 
       uses: docker://public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:0dea78066b1aecbca8a3a6674aade8ee49b5d57a
       with:
