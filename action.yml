@@ -52,7 +52,7 @@ runs:
     - name: Create archive in workspace
       uses: docker://golang:1.20.3-alpine3.17
       shell: sh
-        run: |
+      run: |
           tar -czf $CLOUDBEES_WORKSPACE/output.tar.gz -C $CLOUDBEES_WORKSPACE .
 
     - name: Generate reference files 
