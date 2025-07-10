@@ -54,6 +54,7 @@ runs:
       shell: sh
       run: |
           tar -czf /tmp/output.tar -C "$CLOUDBEES_WORKSPACE" .
+          mv /tmp/output.tar "$CLOUDBEES_WORKSPACE/"
           ls -latR /cloudbees/workspace
 
     - name: Generate reference files 
