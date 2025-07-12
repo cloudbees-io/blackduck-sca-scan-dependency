@@ -54,7 +54,6 @@ runs:
       shell: sh
       run: |
           ls -latR /cloudbees/workspace/
-          cat /cloudbees/workspace/compile_commands.json
 
     # - name: Create archive in workspace
     #   uses: docker://golang:1.20.3-alpine3.17
