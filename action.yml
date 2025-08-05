@@ -32,12 +32,28 @@ inputs:
     description: 'Flag to mention the detect cli params'
     required: false
     default: ''
+outputs:
+  critical-count:
+    description: A string containing the number of Critical security findings discovered during the scan.
+    value: ${{steps.process-outputs.outputs.critical-count}}
+  very-high-count:
+    description: A string containing the number of Very High security findings discovered during the scan.
+    value: ${{steps.process-outputs.outputs.very-high-count}}
+  high-count:
+    description: A string containing the number of High security findings discovered during the scan.
+    value: ${{steps.process-outputs.outputs.high-count}}
+  medium-count:
+    description: A string containing the number of Medium security findings discovered during the scan.
+    value: ${{steps.process-outputs.outputs.medium-count}}
+  low-count:
+    description: A string containing the number of Low security findings discovered during the scan.
+    value: ${{steps.process-outputs.outputs.low-count}}
 
 runs:
   using: composite
   steps:
     - name: Generate sha and ref 
-      uses: docker://public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:d14621a0e281098b736a3d21cc92edd1fdc8b504
+      uses: docker://public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:984156a62f4ed484f0c337135c30f8a64e95b523
       with:
         entrypoint: assets-plugin-chain-utils
         args: get-commit-info
@@ -50,7 +66,7 @@ runs:
         INPUT_WORKSPACE_DIR: ${{ inputs.workspace-dir }}
 
     - name: Generate reference files 
-      uses: docker://public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:0dea78066b1aecbca8a3a6674aade8ee49b5d57a
+      uses: docker://public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:984156a62f4ed484f0c337135c30f8a64e95b523
       with:
           entrypoint: assets-plugin-chain-utils
           args: generate-references --asset-type "CODE"
@@ -72,7 +88,7 @@ runs:
           BLACKDUCK_DETECT_CLI_PARAMS: ${{ inputs.detect-cli-params }}
       run: /app/plugin-blackduck-scanner -mode single
     - name: Complete execution plan
-      uses: docker://public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:0dea78066b1aecbca8a3a6674aade8ee49b5d57a
+      uses: docker://public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:984156a62f4ed484f0c337135c30f8a64e95b523
       id: process-outputs
       with:
           entrypoint: assets-plugin-chain-utils
