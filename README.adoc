@@ -2,6 +2,23 @@
 
 Use this action to scan repositories for dependency vulnerabilities with the Black Duck Software Composition Analysis (SCA) scanner.
 
+Black Duck is a software composition analysis (SCA) scanning solution that helps organizations manage risks associated with open source software in terms of security, license compliance, and code quality.
+
+Add a Black Duck scan to your workflows in CloudBees platform to:
+
+* Detect open source and third-party dependencies in software, source code, and artifacts with multiple analysis techniques.
+* Identify code vulnerabilities and receive timely security advisories.
+* Gain insight into security risks and how to fix vulnerabilities.
+
+CloudBees platform enables you to run a Black Duck scan either implicitly or explicitly.
+
+== Explicit and implicit scan types
+
+An implicit scan is automatically triggered, and an explicit scan is one you configure to be invoked in a step of your workflow.
+To learn more about the differences between explicit and implicit scans, refer to link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/actions#security[].
+
+To set up implicit scanning, refer to link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/aspm/implicit-security-analysis[].
+
 == Scanner information
 
 The Black Duck SCA scanner architectural components are:
@@ -69,8 +86,6 @@ NOTE: For more information about the Black Duck SCA scanner, refer to the link:h
 
 == Usage examples
 
-== Usage examples
-
 The following is a basic usage example for this action:
 
 [source,yaml]
@@ -84,6 +99,8 @@ The following is a basic usage example for this action:
           ref: main
 
 ----
+
+=== Using Black Duck Detect properties
 
 In the following example, the Black Duck Detect properties `logging.level.detect` and `blackduck.offline.mode` are specified:
 
@@ -102,6 +119,57 @@ In the following example, the Black Duck Detect properties `logging.level.detect
 
 ----
 
+=== Scan a C language repository with Black Duck
+
+The following CloudBees platform workflow example scans a C++ repository with Black Duck.
+
+[source, yaml,role="default-expanded"]
+----
+
+name: black-duck-scan
+kind: workflow
+apiVersion: automation.cloudbees.io/v1alpha1
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  scm-token-own: read
+  scm-token-org: read
+  id-token: write
+
+jobs:
+  blackduck-scan:
+    steps:
+      - name: Check out C++ source code
+        uses: cloudbees-io/checkout@v1
+
+      - name: Black Duck scan on C++ code
+        uses: cloudbees-io/blackduck-sca-scan-dependency@v2
+        with:
+          server-url: 'https://blackduck.example.com'
+          api-token: ${{ secrets.BLACK_DUCK_API_TOKEN }}
+          project-name: 'my-cpp-scan-project'
+          project-version: '0.0.2'
+          detect-cli-params: '--detect.clang.compile.commands.path=./compile_commands.json'
+
+----
+
+[IMPORTANT]
+====
+For all C language scans, be sure to specify the compilation database file via `+detect-cli-params: '--detect.clang.compile.commands.path=./compile_commands.json'+`.
+
+If you do not add the compilation database file, the Black Duck scan may:
+
+* Miss dependencies and be unable to resolve include paths and linked libraries.
+* Perform incomplete analyses and not detect all components and vulnerabilities.
+* Produce reduced accuracy due to a limited understanding of your project's build configuration.
+* Return potential false positives or missed security issues.
+
+====
+
 == License
 
 This code is made available under the 
@@ -110,4 +178,4 @@ link:https://opensource.org/license/mit/[MIT license].
 == References
 
 * Learn more about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/actions[using actions in CloudBees workflows].
-* Learn about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/[the CloudBees platform].
+* Learn about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/[CloudBees platform].
