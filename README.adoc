@@ -1,4 +1,4 @@
-= Cloudbees action: Scan with Black Duck SCA
+= CloudBees action: Scan with Black Duck SCA
 
 Use this action to scan repositories for dependency vulnerabilities with the Black Duck Software Composition Analysis (SCA) scanner.
 You can also use the action output as a quality gate for the next step or job in your workflow.
