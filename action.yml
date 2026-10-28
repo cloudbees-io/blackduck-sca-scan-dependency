@@ -75,7 +75,7 @@ runs:
           INPUT_CLOUDBEES_API_URL: ${{ cloudbees.api.url }}
           INPUT_RUN_ID: ${{ cloudbees.run_id }}
     - name: Run blackduck compliance plugin
-      uses: docker://public.ecr.aws/l7o7z1g8/actions/plugin-blackduck-sca:fd254036a0f5492b01cfcfadf52b08c6c5b57155
+      uses: docker://public.ecr.aws/l7o7z1g8/actions/plugin-blackduck-sca:8797d0e1b2f6932ff46d2c254148f9277f6814c4
       env:
           RUN_ID: ${{ cloudbees.run_id }}
           JOB_ID: ${{ job.id }}
